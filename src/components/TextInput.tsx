@@ -7,9 +7,10 @@ interface TextInputProps {
     onChange?: (value: string) => void;
     placeholder?: string;
     label?: string;
+    name?: string;
 }
 
-export default function TextInput({ defaultValue = "", onChange, placeholder, label }: TextInputProps) {
+export default function TextInput({ defaultValue = "", onChange, placeholder, label, name }: TextInputProps) {
     const [value, setValue] = useState<string>(defaultValue);
 
     return (
@@ -17,7 +18,7 @@ export default function TextInput({ defaultValue = "", onChange, placeholder, la
             <input
                 type="text"
                 className={"border-4 border-primary rounded-full px-2 py-1 text-dark font-medium"}
-                {...{placeholder, defaultValue}}
+                {...{placeholder, defaultValue, name}}
                 onChange={(e) => {
                     onChange?.(e.target.value);
                     setValue(e.target.value);

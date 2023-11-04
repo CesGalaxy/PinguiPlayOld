@@ -1,4 +1,3 @@
-// @ts-ignore
 import admin from 'firebase-admin';
 
 interface FirebaseAdminAppParams {
@@ -6,6 +5,7 @@ interface FirebaseAdminAppParams {
     clientEmail: string;
     storageBucket: string;
     privateKey: string;
+    databaseURL?: string;
 }
 
 function formatPrivateKey(privateKey: string) {
@@ -17,6 +17,7 @@ export function createFirebaseAdminApp({
     clientEmail,
     storageBucket,
     privateKey,
+    databaseURL
 }: FirebaseAdminAppParams) {
     if (admin.apps.length > 0) {
         return admin.app();
@@ -32,6 +33,7 @@ export function createFirebaseAdminApp({
         credential: cert,
         storageBucket,
         projectId,
+        databaseURL,
     });
 }
 
@@ -40,8 +42,9 @@ export async function initAdmin() {
     const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
     const storageBucket = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET;
     const privateKey = process.env.FIREBASE_PRIVATE_KEY;
+    const databaseURL = process.env.FIREBASE_DATABASE_URL;
 
-    if (!projectId || !clientEmail || !storageBucket || !privateKey) {
+    if (!projectId || !clientEmail || !storageBucket || !privateKey || !databaseURL) {
         throw new Error(
             'Missing Firebase environment variables. Check your .env file.'
         );
@@ -52,5 +55,6 @@ export async function initAdmin() {
         clientEmail,
         storageBucket,
         privateKey,
+        databaseURL,
     });
 }
